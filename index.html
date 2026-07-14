@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Divyanshu Singh Chouhan portfolio built in a premium Framer-inspired landing page style using resume-based content.">
+  <title>Divyanshu Singh Chouhan | Java Developer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f6f1e9;
+      --muted: #beb3a4;
+      --gold: #d7a54d;
+      --red: #ef4444;
+      --shadow: 0 30px 60px rgba(0, 0, 0, 0.34);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-sm: 16px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      background:
+        linear-gradient(180deg, rgba(8, 8, 8, 0.74), rgba(8, 8, 8, 0.95)),
+        radial-gradient(circle at top right, rgba(215, 165, 77, 0.18), transparent 24%),
+        url("f1bg.jpg") center/cover fixed no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent 86%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .serif,
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Instrument Serif", serif;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--gold), #f1c770);
+      color: #101010;
+    }
+
+    .button-secondary {
+      background: var(--panel);
+      border-color: var(--line);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(18px);
+      background: rgba(10, 10, 10, 0.68);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner,
+    .brand,
+    .nav-links,
+    .hero-actions,
+    .hero-stats,
+    .logo-strip,
+    .card-meta,
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .brand img {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(215, 165, 77, 0.7);
+    }
+
+    .brand small {
+      display: block;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    main section {
+      padding: 88px 0;
+    }
+
+    .hero-grid,
+    .about-grid,
+    .portfolio-grid,
+    .journey-grid,
+    .contact-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: end;
+      padding: 56px 0 22px;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      line-height: 1.05;
+      max-width: 860px;
+      margin-top: 14px;
+    }
+
+    .hero-copy p {
+      max-width: 720px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      margin: 24px 0 0;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+    }
+
+    .hero-stats {
+      margin-top: 36px;
+    }
+
+    .stat-card {
+      min-width: 180px;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+    }
+
+    .hero-visual {
+      min-height: 640px;
+      overflow: hidden;
+      position: relative;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.62)),
+        url("mypic.jpg") center top/cover no-repeat;
+    }
+
+    .hero-visual-card {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(12, 12, 12, 0.72);
+      border: 1px solid var(--line);
+    }
+
+    .logo-strip {
+      justify-content: space-between;
+      padding: 20px 22px;
+    }
+
+    .logo-pill {
+      flex: 1 1 150px;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: #eadfcd;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+    }
+
+    .section-head {
+      margin-bottom: 26px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      max-width: 790px;
+      margin-top: 10px;
+    }
+
+    .section-head p {
+      max-width: 720px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin: 16px 0 0;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about-card,
+    .experience-card,
+    .portfolio-card,
+    .journey-card,
+    .contact-card {
+      padding: 28px;
+    }
+
+    .tag-row {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: #efe5d6;
+      font-size: 0.92rem;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 1.05rem;
+    }
+
+    .mini-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .portfolio-image {
+      height: 230px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.55));
+    }
+
+    .portfolio-card h3,
+    .journey-card h3,
+    .about-card h3 {
+      font-size: 2rem;
+    }
+
+    .portfolio-card p,
+    .journey-card p,
+    .about-card p,
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.78;
+    }
+
+    .card-meta {
+      margin-top: 16px;
+    }
+
+    .meta-pill {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: #efe5d6;
+      font-size: 0.88rem;
+    }
+
+    .journey-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .points {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .point {
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: #efe5d6;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .contact-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .contact-item {
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+
+    .contact-item p {
+      margin: 8px 0 0;
+    }
+
+    footer {
+      padding: 24px 0 40px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 980px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .portfolio-grid,
+      .journey-grid,
+      .contact-grid,
+      .mini-grid,
+      .contact-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 460px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(var(--max-width), calc(100% - 20px));
+      }
+
+      main section {
+        padding: 68px 0;
+      }
+
+      h1 {
+        font-size: 2.6rem;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <img src="mypic.jpg" alt="Divyanshu Singh Chouhan portrait">
+        <span>
+          <small class="eyebrow">Divyanshu Singh Chouhan</small>
+          Java Developer Portfolio
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">Driver Profile</a>
+        <a href="#telemetry">Telemetry</a>
+        <a href="#featured-projects">Featured Machines</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Pit Lane</a>
+      </nav>
+
+      <a class="button button-secondary" href="#contact">Contact Me</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">CSE Data Science Undergraduate / Bhopal</div>
+          <h1>Developing performant backend systems and data-driven applications.</h1>
+          <p>
+            I am a CSE-Data Science undergraduate with strong foundations in Java, Python, Spring Boot,
+            Object-Oriented Programming, Data Structures &amp; Algorithms, and SQL. I have hands-on experience
+            as a Software Developer Intern at Parabit Technology Pvt. Ltd., where I contributed to
+            ShivChaitanya, a Deep Space Early Warning System, and I am seeking an entry-level Software
+            Engineer or Java Developer role.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#portfolio">View Projects</a>
+            <a class="button button-secondary" href="#contact">Hire Me</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="panel stat-card">
+              <strong>Java, Python &amp; Spring Boot</strong>
+              <span class="muted">Primary stack for building robust backend APIs.</span>
+            </div>
+            <div class="panel stat-card">
+              <strong>Software Developer Intern</strong>
+              <span class="muted">Parabit Technology Pvt. Ltd. &mdash; building Spring Boot &amp; Java Swing modules for a Deep Space Early Warning System.</span>
+            </div>
+            <div class="panel stat-card">
+              <strong>2023 - 2027 &middot; CGPA 7.40/10</strong>
+              <span class="muted">B.Tech in Computer Science (Data Science) at LNCT Excellence, Bhopal.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel hero-visual reveal">
+          <div class="hero-visual-card">
+            <div class="eyebrow">Career Target</div>
+            <div class="serif" style="font-size:2rem; line-height:1; margin-top:8px;">
+              Entry-level Software Engineer / Java Developer
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:0;">
+      <div class="container panel logo-strip reveal">
+        <div class="logo-pill">Java</div>
+        <div class="logo-pill">Python</div>
+        <div class="logo-pill">Spring Boot</div>
+        <div class="logo-pill">SQL</div>
+        <div class="logo-pill">C++</div>
+        <div class="logo-pill">DSA</div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">About</div>
+          <h2>Driven by a passion for backend engineering and problem-solving.</h2>
+          <p>
+            My background combines Java and Python development, object-oriented design, data structures,
+            SQL, and hands-on project work. My internship experience gave me practical exposure to deploying
+            real-world applications, working with databases via JDBC, and implementing secure APIs using Spring Boot.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <article class="panel about-card reveal">
+            <h3>Summary</h3>
+            <p>
+              I bring strong foundations in Java, Python, Spring Boot, Object-Oriented Programming,
+              Data Structures &amp; Algorithms, SQL, and SDLC-based collaboration. I've worked with REST
+              APIs and JDBC, and I am comfortable contributing to modular
+              applications, debugging performance issues, and following professional development workflows
+              including testing and version control.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Java</span>
+              <span class="tag">Python</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">Object-Oriented Programming</span>
+              <span class="tag">Data Structures &amp; Algorithms</span>
+              <span class="tag">SQL</span>
+              <span class="tag">SDLC</span>
+            </div>
+          </article>
+
+          <div class="mini-grid reveal">
+            <div class="mini-card">
+              <div class="eyebrow">Education</div>
+              <strong>B.Tech Computer Science (Data Science)</strong>
+              <p>Lakshmi Narain College of Technology Excellence, Bhopal. August 2023 to May 2027. CGPA: 7.40/10.</p>
+            </div>
+            <div class="mini-card">
+              <div class="eyebrow">Languages</div>
+              <strong>English and Hindi</strong>
+              <p>English: Proficient. Hindi: Native.</p>
+            </div>
+            <div class="mini-card">
+              <div class="eyebrow">Tools</div>
+              <strong>Git, GitHub, IntelliJ IDEA, Apache NetBeans</strong>
+              <p>Comfortable with version control, development tools, and structured coding workflows.</p>
+            </div>
+            <div class="mini-card">
+              <div class="eyebrow">Databases &amp; Cloud</div>
+              <strong>MySQL, SQLite, Google Cloud Platform</strong>
+              <p>Working familiarity with relational databases, JDBC integration, and GCP fundamentals.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">Experience &amp; Projects</div>
+          <h2>Software engineering experience and personal projects.</h2>
+          <p>
+            A collection of my recent work, highlighting practical experience in full-stack and backend development.
+          </p>
+        </div>
+
+        <div class="experience-grid reveal">
+          <article class="panel experience-card">
+            <div class="eyebrow" style="margin-bottom: 8px;">June 2025 &ndash; Present</div>
+            <h3 style="font-size: 2.2rem; margin-bottom: 8px;">Software Developer Intern</h3>
+            <strong style="display:block; color: var(--gold); margin-bottom: 16px; font-size: 1.1rem; font-weight: 500;">Parabit Technology Pvt. Ltd. (Space Technology Domain)</strong>
+            <p style="color: var(--muted); line-height: 1.78; margin-bottom: 0;">
+              Developed Java Swing-based application modules and integrated SQLite databases using JDBC. Implemented Spring Boot
+              authentication and authorization for secure module access, worked on mission management
+              and astronaut registration workflows, and used Git-based version control and AI-assisted
+              development tools throughout the SDLC.
+            </p>
+          </article>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="panel portfolio-card reveal">
+            <div class="portfolio-image" style="background: url('shivchaitanya.png') center/cover;"></div>
+            <h3>ShivChaitanya &mdash; Deep Space Early Warning System</h3>
+            <p>
+              Contributed to a software platform supporting a Deep Space Early Warning System for
+              mission-to-mission radiation alert communication. Developed Mission Registration and
+              Astronaut Registration modules with database integration and validation, implemented
+              Spring Boot authentication and authorization, built Java Swing dashboards for monitoring
+              mission data, and integrated SQLite databases using JDBC.
+            </p>
+            <div class="card-meta">
+              <span class="meta-pill">Java Swing</span>
+              <span class="meta-pill">Spring Boot</span>
+              <span class="meta-pill">SQLite / JDBC</span>
+            </div>
+          </article>
+
+          <article class="panel portfolio-card reveal">
+            <div class="portfolio-image" style="background: linear-gradient(135deg, #18181b, #27272a); border: 1px solid var(--line);"></div>
+            <h3>Personal Portfolio Website</h3>
+            <p>
+              Designed and deployed a responsive portfolio website using HTML5 and CSS3, showcasing
+              projects, technical skills, certifications, and GitHub repositories.
+            </p>
+            <div class="card-meta">
+              <span class="meta-pill">HTML5 / CSS3</span>
+              <span class="meta-pill">divyanshusingh.tech</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    
+<section id="telemetry">
+<div class="container">
+<div class="section-head reveal">
+<div class="eyebrow">Driver Telemetry</div>
+<h2>Live Coding Statistics</h2>
+<p>Auto-updated from LeetCode.</p>
+</div>
+<div class="mini-grid">
+<div class="mini-card"><div class="eyebrow">Total</div><strong id="lcTotal">Loading...</strong><p>Problems Solved</p></div>
+<div class="mini-card"><div class="eyebrow">Easy</div><strong id="lcEasy">Loading...</strong><p>Problems Solved</p></div>
+<div class="mini-card"><div class="eyebrow">Medium</div><strong id="lcMedium">Loading...</strong><p>Problems Solved</p></div>
+<div class="mini-card"><div class="eyebrow">Hard</div><strong id="lcHard">Loading...</strong><p>Problems Solved</p></div>
+</div>
+</div>
+</section>
+
+<section id="featured-projects">
+<div class="container">
+<div class="section-head reveal">
+<div class="eyebrow">Featured Machines</div>
+<h2>Projects Currently On The Grid</h2>
+</div>
+<div id="github-projects" class="portfolio-grid"></div>
+</div>
+</section>
+
+<section id="credentials">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">Credentials</div>
+          <h2>Certifications and Technical Competencies.</h2>
+          <p>
+            A detailed breakdown of my technical toolkit, ongoing learning, and professional certifications.
+          </p>
+        </div>
+
+        <div class="journey-grid">
+          <article class="panel journey-card reveal">
+            <div class="eyebrow">Achievements</div>
+            <h3>Coding &amp; Assessments</h3>
+            <p>Consistent DSA practice and formal skills assessments backing up the fundamentals.</p>
+            <div class="points">
+              <div class="point">Regular DSA practice on LeetCode</div>
+              <div class="point">Coding contest participation</div>
+              <div class="point">MeitY-NASSCOM FutureSkills Prime (NSQF Level 5)</div>
+            </div>
+          </article>
+
+          <article class="panel journey-card reveal">
+            <div class="eyebrow">Certifications</div>
+            <h3>Networking, Cloud &amp; AI</h3>
+            <p>Cisco CCNA learning path plus certifications spanning AI, data, cloud, and platform ecosystems.</p>
+            <div class="points">
+              <div class="point">Cisco CCNA &mdash; networking, routing, switching, wireless, automation</div>
+              <div class="point">Certifications in Cloud Computing &amp; Cybersecurity</div>
+              <div class="point">Certifications in AI, Data Science, Python &amp; Salesforce technologies</div>
+            </div>
+          </article>
+
+          <article class="panel journey-card reveal">
+            <div class="eyebrow">Technical Stack</div>
+            <h3>Tools &amp; Technologies</h3>
+            <p>A broad working stack across languages, frameworks, databases, and platforms.</p>
+            <div class="points">
+              <div class="point">Java, Python, C++, SQL</div>
+              <div class="point">Spring Boot, Java Swing, REST APIs, Flask (basics)</div>
+              <div class="point">MySQL, SQLite, GCP, Git, GitHub, IntelliJ IDEA, Apache NetBeans</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="resume">
+      <div class="container reveal">
+        <article class="panel" style="padding: 56px 32px; text-align: center; background: linear-gradient(135deg, rgba(215, 165, 77, 0.08), rgba(10, 10, 10, 0.6)); border: 1px solid var(--line);">
+          <div class="eyebrow" style="margin-bottom: 12px;">Resume</div>
+          <h2 style="font-size: 2.8rem; margin: 0 auto 16px; max-width: 600px;">Get the full picture.</h2>
+          <p style="color: var(--muted); max-width: 600px; margin: 0 auto 32px; font-size: 1.1rem; line-height: 1.7;">
+            View my complete professional experience, academic background, and technical skills in one comprehensive document.
+          </p>
+          <a class="button button-primary" href="resume.pdf" target="_blank" style="padding: 0 32px; height: 56px; font-size: 1.05rem;">
+            View Resume (PDF)
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact-grid">
+        <article class="panel contact-card reveal">
+          <div class="eyebrow">Contact</div>
+          <h2>Ready for an internship, software role, or project opportunity.</h2>
+          <p>
+            I am looking for entry-level Software Engineer and Java Developer opportunities. You can reach me through the resume details below.
+          </p>
+
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="eyebrow">Email</div>
+              <p><a href="mailto:yashh.exe@gmail.com">yashh.exe@gmail.com</a></p>
+            </div>
+            <div class="contact-item">
+              <div class="eyebrow">LinkedIn</div>
+              <p><a href="https://www.linkedin.com/in/divyanshusinghchouhan" target="_blank" rel="noopener noreferrer">linkedin.com/in/divyanshusinghchouhan</a></p>
+            </div>
+            <div class="contact-item">
+              <div class="eyebrow">GitHub</div>
+              <p><a href="https://github.com/y4shh69" target="_blank" rel="noopener noreferrer">github.com/y4shh69</a></p>
+            </div>
+            <div class="contact-item">
+              <div class="eyebrow">LeetCode</div>
+              <p><a href="https://leetcode.com/u/yashhh27" target="_blank" rel="noopener noreferrer">leetcode.com/u/yashhh27</a></p>
+            </div>
+            <div class="contact-item">
+              <div class="eyebrow">Mobile</div>
+              <p><a href="tel:+917581947522">+91 7581947522</a></p>
+            </div>
+            <div class="contact-item">
+              <div class="eyebrow">Location</div>
+              <p>Bhopal, Madhya Pradesh</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel contact-card reveal">
+          <div class="eyebrow">Skills Snapshot</div>
+          <h3 style="font-size:2.2rem; margin-top:8px;">Resume-aligned technical profile.</h3>
+          <p>
+            Java, Python, C++, SQL, Spring Boot, Java Swing, REST APIs, Flask, HTML5, CSS3, MySQL, SQLite,
+            GCP, Git, GitHub, and AI/ML &amp; cybersecurity fundamentals.
+          </p>
+
+          <div class="tag-row">
+            <span class="tag">Java</span>
+            <span class="tag">Python</span>
+            <span class="tag">C++</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">Java Swing</span>
+            <span class="tag">REST APIs</span>
+            <span class="tag">Flask</span>
+            <span class="tag">HTML5 / CSS3</span>
+            <span class="tag">MySQL / SQLite</span>
+            <span class="tag">GCP</span>
+            <span class="tag">DSA</span>
+            <span class="tag">Multi-threading</span>
+            <span class="tag">AI/ML</span>
+          </div>
+
+          <div style="margin-top:24px;">
+            <a class="button button-primary" href="mailto:yashh.exe@gmail.com">Send Email</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>&copy; 2026 Divyanshu Singh Chouhan</span>
+      <a href="mailto:yashh.exe@gmail.com">Available for software opportunities</a>
+    </div>
+  </footer>
+
+  <script>
+    const items = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    items.forEach((item) => observer.observe(item));
+  </script>
+
+<script>
+async function loadLeetCode(){
+try{
+const r=await fetch("https://leetcode-api-faisalshohag.vercel.app/yashhh27");
+const d=await r.json();
+document.getElementById("lcTotal").innerText=d.totalSolved||"N/A";
+document.getElementById("lcEasy").innerText=d.easySolved||"N/A";
+document.getElementById("lcMedium").innerText=d.mediumSolved||"N/A";
+document.getElementById("lcHard").innerText=d.hardSolved||"N/A";
+}catch(e){}
+}
+async function loadProjects(){
+const username="y4shh69";
+const container=document.getElementById("github-projects");
+try{
+const res=await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+const repos=await res.json();
+for(const repo of repos){
+const det=await fetch(`https://api.github.com/repos/${username}/${repo.name}`,{headers:{Accept:"application/vnd.github.mercy-preview+json"}});
+const data=await det.json();
+if(data.topics && data.topics.includes("featured-portfolio")){
+container.innerHTML += `<article class="panel portfolio-card"><h3>${repo.name}</h3><p>${repo.description||"Project repository"}</p><div class="card-meta"><span class="meta-pill">${repo.language||"Code"}</span></div><div style="margin-top:20px;"><a class="button button-primary" href="${repo.html_url}" target="_blank">View Source</a></div></article>`;
+}
+}
+}catch(e){}
+}
+loadLeetCode();loadProjects();
+</script>
+</body>
+</html>
