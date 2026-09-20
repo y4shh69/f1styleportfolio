@@ -33,14 +33,30 @@
       scroll-behavior: smooth;
     }
 
+    :root {
+      --pointer-x: 0;
+      --pointer-y: 0;
+    }
+
     body {
       margin: 0;
       color: var(--text);
       font-family: "Manrope", sans-serif;
-      background:
-        linear-gradient(180deg, rgba(8, 8, 8, 0.74), rgba(8, 8, 8, 0.95)),
-        radial-gradient(circle at top right, rgba(215, 165, 77, 0.18), transparent 24%),
-        url("f1bg.jpg") center/cover fixed no-repeat;
+      background: linear-gradient(180deg, rgba(8, 8, 8, 0.74), rgba(8, 8, 8, 0.95));
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .page-bg {
+      position: fixed;
+      inset: -8%;
+      z-index: -2;
+      pointer-events: none;
+      background: url("bg2.jpg") center/cover no-repeat;
+      transform: translate3d(calc(var(--pointer-x, 0) * 22px), calc(var(--pointer-y, 0) * 22px), 0) scale(1.12);
+      transition: transform 0.18s ease-out;
+      filter: saturate(0.8) contrast(1.08) brightness(0.7);
+      opacity: 0.9;
     }
 
     body::before {
@@ -48,6 +64,7 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
+      z-index: -1;
       background:
         linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
@@ -121,17 +138,162 @@
     }
 
     .button-secondary {
-      background: var(--panel);
-      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(215, 165, 77, 0.45);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.38);
+    }
+
+    .project-card .portfolio-image {
+      height: 240px;
+      border-radius: 20px 20px 0 0;
+      margin: -28px -28px 22px;
+      width: calc(100% + 56px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-summary {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: #d9d0c2;
+      line-height: 1.8;
+      margin-top: 14px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .button-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .project-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
+    }
+
+    .project-modal.is-open {
+      display: flex;
+    }
+
+    .project-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(4, 4, 4, 0.8);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-panel {
+      position: relative;
+      width: min(860px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      padding: 0;
+      border-radius: 30px;
+      background: rgba(14, 14, 14, 0.95);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-image {
+      min-height: 260px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .modal-content {
+      padding: 28px;
+    }
+
+    .modal-content h3 {
+      margin-top: 8px;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+    }
+
+    .modal-content p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-top: 16px;
+    }
+
+    .modal-list {
+      margin: 18px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .modal-meta {
+      margin-top: 26px;
+    }
+
+    .modal-meta strong {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--text);
+      font-size: 0.96rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(12, 12, 12, 0.7);
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
     }
 
     .nav {
       position: sticky;
       top: 0;
-      z-index: 30;
+      z-index: 40;
       backdrop-filter: blur(18px);
-      background: rgba(10, 10, 10, 0.68);
-      border-bottom: 1px solid var(--line);
+      background: rgba(12, 12, 12, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
     }
 
     .nav-inner,
@@ -149,30 +311,90 @@
     }
 
     .nav-inner {
-      min-height: 76px;
+      min-height: 78px;
       justify-content: space-between;
     }
 
     .brand {
-      font-weight: 800;
-      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      padding: 8px 0;
+      text-decoration: none;
     }
 
-    .brand img {
+    .brand-mark {
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(215, 165, 77, 0.7);
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(230, 179, 92, 0.22), rgba(221, 160, 45, 0.08));
+      border: 1px solid rgba(230, 179, 92, 0.75);
+      box-shadow: 0 0 0 5px rgba(230, 179, 92, 0.06);
+      color: var(--gold);
+      font-size: 0.96rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-family: "Segoe UI", Arial, sans-serif;
     }
 
-    .brand small {
+    .brand-text {
+      display: inline-flex;
+      flex-direction: column;
+      line-height: 1.12;
+      gap: 2px;
+    }
+
+    .brand-text strong {
+      font-size: 0.84rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .brand-text small {
       display: block;
+      font-size: 0.63rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .nav-links a {
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .nav .button {
+      min-height: 42px;
+      padding: 0 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
     main section {
@@ -195,18 +417,33 @@
     }
 
     h1 {
-      font-size: clamp(2.8rem, 6vw, 4.8rem);
-      line-height: 1.05;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 0.94;
+      letter-spacing: -0.06em;
       max-width: 860px;
       margin-top: 14px;
+      color: #f5efe8;
+      text-wrap: balance;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.15), 0 12px 32px rgba(0,0,0,0.2);
+    }
+
+    .hero-copy {
+      padding: 28px 26px 22px;
+      border-radius: 28px;
+      background: rgba(14, 14, 14, 0.26);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.18);
     }
 
     .hero-copy p {
       max-width: 720px;
       font-size: 1.05rem;
       line-height: 1.8;
-      color: var(--muted);
+      color: #e6dccd;
       margin: 24px 0 0;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.2);
     }
 
     .hero-actions {
@@ -221,6 +458,10 @@
       min-width: 180px;
       padding: 18px 20px;
       border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .stat-card strong {
@@ -234,9 +475,20 @@
       overflow: hidden;
       position: relative;
       border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       background:
-        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.62)),
+        linear-gradient(180deg, rgba(10, 10, 10, 0.18), rgba(10, 10, 10, 0.7)),
         url("mypic.jpg") center top/cover no-repeat;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,15,15,0.12));
+      pointer-events: none;
     }
 
     .hero-visual-card {
@@ -244,10 +496,14 @@
       left: 18px;
       right: 18px;
       bottom: 18px;
-      padding: 18px;
+      padding: 18px 18px 20px;
       border-radius: var(--radius-lg);
-      background: rgba(12, 12, 12, 0.72);
-      border: 1px solid var(--line);
+      background: rgba(17, 17, 17, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+      z-index: 1;
     }
 
     .logo-strip {
@@ -273,20 +529,47 @@
 
     .section-head {
       margin-bottom: 26px;
+      padding: 22px 26px 18px;
+      display: inline-block;
+      max-width: 100%;
+      border-radius: 24px;
+      background: rgba(17, 17, 17, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
     }
 
-    h2 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.1;
+    .section-head .eyebrow {
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 {
+      position: relative;
+      display: inline-block;
+      font-size: clamp(2.3rem, 4vw, 3.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
       max-width: 790px;
       margin-top: 10px;
+      color: #f7f3ee;
+    }
+
+    .section-head h2::after {
+      content: "";
+      display: block;
+      width: 120px;
+      height: 2px;
+      margin-top: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(215, 165, 77, 0.9), rgba(215, 165, 77, 0));
     }
 
     .section-head p {
       max-width: 720px;
       line-height: 1.8;
-      color: var(--muted);
-      margin: 16px 0 0;
+      color: #e3d9ce;
+      margin: 18px 0 0;
     }
 
     .about-grid {
@@ -299,6 +582,11 @@
     .journey-card,
     .contact-card {
       padding: 28px;
+      background: rgba(17, 17, 17, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 22px 52px rgba(0, 0, 0, 0.12);
     }
 
     .tag-row {
@@ -311,10 +599,12 @@
     .tag {
       padding: 10px 14px;
       border-radius: 999px;
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: #efe5d6;
       font-size: 0.92rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .mini-grid {
@@ -326,8 +616,10 @@
     .mini-card {
       padding: 22px;
       border-radius: var(--radius-lg);
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .mini-card strong {
@@ -338,7 +630,7 @@
 
     .mini-card p {
       margin: 10px 0 0;
-      color: var(--muted);
+      color: #d9cdb7;
       line-height: 1.7;
     }
 
@@ -373,14 +665,16 @@
     .portfolio-card h3,
     .journey-card h3,
     .about-card h3 {
-      font-size: 2rem;
+      font-size: clamp(1.8rem, 2vw, 2.4rem);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
     }
 
     .portfolio-card p,
     .journey-card p,
     .about-card p,
     .contact-card p {
-      color: var(--muted);
+      color: #d8cdb9;
       line-height: 1.78;
     }
 
@@ -391,10 +685,12 @@
     .meta-pill {
       padding: 10px 12px;
       border-radius: 999px;
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: #efe5d6;
       font-size: 0.88rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .journey-grid {
@@ -410,9 +706,11 @@
     .point {
       padding: 12px 14px;
       border-radius: var(--radius-sm);
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: #efe5d6;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .contact-grid {
@@ -429,8 +727,10 @@
     .contact-item {
       padding: 18px;
       border-radius: 20px;
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .contact-item p {
@@ -507,25 +807,27 @@
   </style>
 </head>
 <body>
+  <div class="page-bg" aria-hidden="true"></div>
+
   <header class="nav">
     <div class="container nav-inner">
-      <a class="brand" href="#top">
-        <img src="mypic.jpg" alt="Divyanshu Singh Chouhan portrait">
-        <span>
-          <small class="eyebrow">Divyanshu Singh Chouhan</small>
-          Java Developer Portfolio
+      <a class="brand" href="#top" aria-label="Divyanshu Singh Chouhan home">
+        <span class="brand-mark">DS</span>
+        <span class="brand-text">
+          <strong>Divyanshu Singh Chouhan</strong>
+          <small>Java Developer</small>
         </span>
       </a>
 
       <nav class="nav-links" aria-label="Primary">
-        <a href="#about">Driver Profile</a>
-        <a href="#telemetry">Telemetry</a>
-        <a href="#featured-projects">Featured Machines</a>
+        <a href="#about">About</a>
+        <a href="#portfolio">Projects</a>
+        <a href="#journey">Experience</a>
         <a href="#resume">Resume</a>
-        <a href="#contact">Pit Lane</a>
+        <a href="#contact">Contact</a>
       </nav>
 
-      <a class="button button-secondary" href="#contact">Contact Me</a>
+      <a class="button button-secondary" href="#contact">Hire Me</a>
     </div>
   </header>
 
@@ -534,7 +836,7 @@
       <div class="container hero-grid">
         <div class="hero-copy reveal">
           <div class="eyebrow">CSE Data Science Undergraduate / Bhopal</div>
-          <h1>Developing performant backend systems and data-driven applications.</h1>
+          <h1>Building backend systems that turn ideas into production.</h1>
           <p>
             I am a CSE-Data Science undergraduate with strong foundations in Java, Python, Spring Boot,
             Object-Oriented Programming, Data Structures &amp; Algorithms, and SQL. I have hands-on experience
@@ -648,10 +950,10 @@
     <section id="portfolio">
       <div class="container">
         <div class="section-head reveal">
-          <div class="eyebrow">Experience &amp; Projects</div>
-          <h2>Software engineering experience and personal projects.</h2>
+          <div class="eyebrow">Projects</div>
+          <h2>Selected Work.</h2>
           <p>
-            A collection of my recent work, highlighting practical experience in full-stack and backend development.
+            A focused look at the projects that best represent my engineering mindset, problem-solving approach, and hands-on execution.
           </p>
         </div>
 
@@ -670,33 +972,39 @@
         </div>
 
         <div class="portfolio-grid">
-          <article class="panel portfolio-card reveal">
+          <article class="panel portfolio-card project-card reveal">
             <div class="portfolio-image" style="background: url('shivchaitanya.png') center/cover;"></div>
-            <h3>ShivChaitanya &mdash; Deep Space Early Warning System</h3>
-            <p>
-              Contributed to a software platform supporting a Deep Space Early Warning System for
-              mission-to-mission radiation alert communication. Developed Mission Registration and
-              Astronaut Registration modules with database integration and validation, implemented
-              Spring Boot authentication and authorization, built Java Swing dashboards for monitoring
-              mission data, and integrated SQLite databases using JDBC.
+            <h3>ShivChaitanya</h3>
+            <p class="project-summary">
+              A mission control and astronaut management platform built for a deep-space early warning system,
+              combining Java Swing interfaces, secure Spring Boot access, and SQLite-backed data handling.
             </p>
             <div class="card-meta">
-              <span class="meta-pill">Java Swing</span>
+              <span class="meta-pill">Java</span>
               <span class="meta-pill">Spring Boot</span>
-              <span class="meta-pill">SQLite / JDBC</span>
+              <span class="meta-pill">SQLite</span>
+            </div>
+            <div class="card-actions">
+              <button class="button button-primary project-detail-btn" type="button" data-project="shivchaitanya">View Details</button>
+              <a class="button button-ghost" href="https://github.com/y4shh69" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </article>
 
-          <article class="panel portfolio-card reveal">
-            <div class="portfolio-image" style="background: linear-gradient(135deg, #18181b, #27272a); border: 1px solid var(--line);"></div>
-            <h3>Personal Portfolio Website</h3>
-            <p>
-              Designed and deployed a responsive portfolio website using HTML5 and CSS3, showcasing
-              projects, technical skills, certifications, and GitHub repositories.
+          <article class="panel portfolio-card project-card reveal">
+            <div class="portfolio-image" style="background: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat; border: 1px solid var(--line);"></div>
+            <h3>ML Scaffold Project</h3>
+            <p class="project-summary">
+              A VS Code extension that converts a raw Python ML training script into a production-ready project scaffold,
+              using AI backends and modular generation for logging, tests, Docker, CI/CD, MLflow, DVC, and monitoring.
             </p>
             <div class="card-meta">
-              <span class="meta-pill">HTML5 / CSS3</span>
-              <span class="meta-pill">divyanshusingh.tech</span>
+              <span class="meta-pill">VS Code</span>
+              <span class="meta-pill">Python</span>
+              <span class="meta-pill">LLM</span>
+            </div>
+            <div class="card-actions">
+              <button class="button button-primary project-detail-btn" type="button" data-project="ml-scaffold">View Details</button>
+              <a class="button button-ghost" href="https://github.com/y4shh69" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </article>
         </div>
@@ -704,39 +1012,13 @@
     </section>
 
     
-<section id="telemetry">
-<div class="container">
-<div class="section-head reveal">
-<div class="eyebrow">Driver Telemetry</div>
-<h2>Live Coding Statistics</h2>
-<p>Auto-updated from LeetCode.</p>
-</div>
-<div class="mini-grid">
-<div class="mini-card"><div class="eyebrow">Total</div><strong id="lcTotal">Loading...</strong><p>Problems Solved</p></div>
-<div class="mini-card"><div class="eyebrow">Easy</div><strong id="lcEasy">Loading...</strong><p>Problems Solved</p></div>
-<div class="mini-card"><div class="eyebrow">Medium</div><strong id="lcMedium">Loading...</strong><p>Problems Solved</p></div>
-<div class="mini-card"><div class="eyebrow">Hard</div><strong id="lcHard">Loading...</strong><p>Problems Solved</p></div>
-</div>
-</div>
-</section>
-
-<section id="featured-projects">
-<div class="container">
-<div class="section-head reveal">
-<div class="eyebrow">Featured Machines</div>
-<h2>Projects Currently On The Grid</h2>
-</div>
-<div id="github-projects" class="portfolio-grid"></div>
-</div>
-</section>
-
 <section id="credentials">
       <div class="container">
         <div class="section-head reveal">
           <div class="eyebrow">Credentials</div>
-          <h2>Certifications and Technical Competencies.</h2>
+          <h2>Credentials &amp; Capabilities.</h2>
           <p>
-            A detailed breakdown of my technical toolkit, ongoing learning, and professional certifications.
+            A concise view of the technical foundation, certifications, and practical skills that support my work.
           </p>
         </div>
 
@@ -781,7 +1063,7 @@
       <div class="container reveal">
         <article class="panel" style="padding: 56px 32px; text-align: center; background: linear-gradient(135deg, rgba(215, 165, 77, 0.08), rgba(10, 10, 10, 0.6)); border: 1px solid var(--line);">
           <div class="eyebrow" style="margin-bottom: 12px;">Resume</div>
-          <h2 style="font-size: 2.8rem; margin: 0 auto 16px; max-width: 600px;">Get the full picture.</h2>
+          <h2 style="font-size: clamp(2.2rem, 4vw, 3.1rem); margin: 0 auto 16px; max-width: 600px; letter-spacing: -0.05em;">Get the full picture.</h2>
           <p style="color: var(--muted); max-width: 600px; margin: 0 auto 32px; font-size: 1.1rem; line-height: 1.7;">
             View my complete professional experience, academic background, and technical skills in one comprehensive document.
           </p>
@@ -796,7 +1078,7 @@
       <div class="container contact-grid">
         <article class="panel contact-card reveal">
           <div class="eyebrow">Contact</div>
-          <h2>Ready for an internship, software role, or project opportunity.</h2>
+          <h2>Let’s build something meaningful.</h2>
           <p>
             I am looking for entry-level Software Engineer and Java Developer opportunities. You can reach me through the resume details below.
           </p>
@@ -869,6 +1151,28 @@
     </div>
   </footer>
 
+  <div class="project-modal" id="projectModal" aria-hidden="true">
+    <div class="project-modal-backdrop" data-close="true"></div>
+    <div class="modal-panel panel" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+      <button class="modal-close" type="button" aria-label="Close project details">&times;</button>
+      <div class="modal-image" id="projectModalImage"></div>
+      <div class="modal-content">
+        <div class="eyebrow" id="projectModalTag">Project</div>
+        <h3 id="projectModalTitle">Project Title</h3>
+        <p id="projectModalOverview"></p>
+        <ul id="projectModalPoints" class="modal-list"></ul>
+        <div class="modal-meta">
+          <strong>Tech Stack</strong>
+          <div class="card-meta" id="projectModalTags"></div>
+        </div>
+        <div class="modal-actions">
+          <a id="projectModalGithub" class="button button-primary" href="#" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          <button class="button button-secondary" type="button" data-close="true">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const items = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver((entries) => {
@@ -881,35 +1185,98 @@
     }, { threshold: 0.15 });
 
     items.forEach((item) => observer.observe(item));
-  </script>
 
-<script>
-async function loadLeetCode(){
-try{
-const r=await fetch("https://leetcode-api-faisalshohag.vercel.app/yashhh27");
-const d=await r.json();
-document.getElementById("lcTotal").innerText=d.totalSolved||"N/A";
-document.getElementById("lcEasy").innerText=d.easySolved||"N/A";
-document.getElementById("lcMedium").innerText=d.mediumSolved||"N/A";
-document.getElementById("lcHard").innerText=d.hardSolved||"N/A";
-}catch(e){}
-}
-async function loadProjects(){
-const username="y4shh69";
-const container=document.getElementById("github-projects");
-try{
-const res=await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
-const repos=await res.json();
-for(const repo of repos){
-const det=await fetch(`https://api.github.com/repos/${username}/${repo.name}`,{headers:{Accept:"application/vnd.github.mercy-preview+json"}});
-const data=await det.json();
-if(data.topics && data.topics.includes("featured-portfolio")){
-container.innerHTML += `<article class="panel portfolio-card"><h3>${repo.name}</h3><p>${repo.description||"Project repository"}</p><div class="card-meta"><span class="meta-pill">${repo.language||"Code"}</span></div><div style="margin-top:20px;"><a class="button button-primary" href="${repo.html_url}" target="_blank">View Source</a></div></article>`;
-}
-}
-}catch(e){}
-}
-loadLeetCode();loadProjects();
-</script>
+    document.addEventListener("pointermove", (event) => {
+      const x = (event.clientX / window.innerWidth - 0.5) * 2;
+      const y = (event.clientY / window.innerHeight - 0.5) * 2;
+      document.documentElement.style.setProperty("--pointer-x", x.toFixed(3));
+      document.documentElement.style.setProperty("--pointer-y", y.toFixed(3));
+    });
+
+    document.addEventListener("pointerleave", () => {
+      document.documentElement.style.setProperty("--pointer-x", "0");
+      document.documentElement.style.setProperty("--pointer-y", "0");
+    });
+
+    const projectDetails = {
+      "shivchaitanya": {
+        tag: "Space Tech / Java",
+        title: "ShivChaitanya — Deep Space Early Warning System",
+        image: "shivchaitanya.png",
+        github: "https://github.com/y4shh69",
+        overview: "ShivChaitanya is a mission-support platform developed for a deep-space early warning system, designed to help monitor and manage critical mission operations with structured data handling and secure user access.",
+        points: [
+          "Built mission registration workflows to capture and validate mission details before activation.",
+          "Developed astronaut registration and profile management features to track personnel-related mission data.",
+          "Created Java Swing-based dashboards to support monitoring, navigation, and operational control for mission modules.",
+          "Integrated SQLite databases using JDBC so mission and astronaut records could be stored, updated, and retrieved reliably.",
+          "Implemented Spring Boot authentication and authorization to secure access and enforce role-based system boundaries.",
+          "Worked in a collaborative SDLC workflow using Git-based version control, code review habits, and iterative development practices."
+        ],
+        tags: ["Java Swing", "Spring Boot", "SQLite / JDBC", "Mission Tracking", "Authentication"]
+      },
+      "ml-scaffold": {
+        tag: "AI Tooling / VS Code Extension",
+        title: "ML Scaffold Project",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+        github: "https://github.com/y4shh69/ML-Scaffold.git",
+        overview: "ML Scaffold is a VS Code extension that takes a raw Python ML training script and turns it into a production-ready project structure using LLM-powered analysis. It is designed to help developers move from experimental notebooks and single-file scripts into maintainable project setups with standard engineering practices.",
+        points: [
+          "Built a VS Code extension that loads an active Python ML script into an interactive webview panel for project generation.",
+          "Integrated support for multiple LLM backends including Gemini, Hugging Face Router, Ollama, llama.cpp, LM Studio, and text-generation-webui.",
+          "Enabled modular project generation with production-ready options such as logging, MLflow tracking, tests, Docker, CI/CD, DVC, configuration files, and monitoring hooks.",
+          "Added real-time streaming generation so users can watch the project scaffold being created in the UI before writing files.",
+          "Included an interactive file preview and one-click export workflow to write generated files directly into the workspace.",
+          "Focused on accelerating the transition from ML research scripts to structured, deployable, and production-friendly projects."
+        ],
+        tags: ["VS Code Extension", "Python", "LLM", "MLflow", "Docker", "CI/CD", "DVC", "Monitoring"]
+      }
+    };
+
+    const modal = document.getElementById("projectModal");
+    const modalImage = document.getElementById("projectModalImage");
+    const modalTag = document.getElementById("projectModalTag");
+    const modalTitle = document.getElementById("projectModalTitle");
+    const modalOverview = document.getElementById("projectModalOverview");
+    const modalPoints = document.getElementById("projectModalPoints");
+    const modalTags = document.getElementById("projectModalTags");
+    const modalGithub = document.getElementById("projectModalGithub");
+
+    function openModal(projectKey) {
+      const project = projectDetails[projectKey];
+      if (!project) return;
+
+      modalImage.style.backgroundImage = `url('${project.image}')`;
+      modalTag.textContent = project.tag;
+      modalTitle.textContent = project.title;
+      modalOverview.textContent = project.overview;
+      modalPoints.innerHTML = project.points.map(point => `<li>${point}</li>`).join("");
+      modalGithub.href = project.github;
+      modalTags.innerHTML = project.tags.map(tag => `<span class="meta-pill">${tag}</span>`).join("");
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.querySelectorAll(".project-detail-btn").forEach((button) => {
+      button.addEventListener("click", () => openModal(button.dataset.project));
+    });
+
+    document.querySelectorAll("[data-close='true']").forEach((element) => {
+      element.addEventListener("click", closeModal);
+    });
+
+    document.querySelector(".modal-close").addEventListener("click", closeModal);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeModal();
+      }
+    });
+  </script>
 </body>
 </html>
